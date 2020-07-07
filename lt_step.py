@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from sys import argv
 from os import mkdir
 import serial
@@ -28,11 +29,17 @@ def create_dir():
 def main():
     dir_name = create_dir()
     camera = PiCamera()
-    camera.resolution = (1024, 768)
+    camera.resolution = (1640, 1232)
+    #camera.resolution = (1024, 768)
     step_enable(True)
     sleep(2)
 
-    for n, step in enumerate(range(0, 2400, 2), 1):
+    for n, step in enumerate(range(0, 3200, 1), 1):
+        sleep(1)
+        camera.capture(f'{dir_name}/img{str(n).zfill(4)}.jpg')
+        serial_send(step)
+
+    for n, step in enumerate(range(3200, 0, -1), 3201):
         sleep(1)
         camera.capture(f'{dir_name}/img{str(n).zfill(4)}.jpg')
         serial_send(step)
